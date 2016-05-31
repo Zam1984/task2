@@ -15,7 +15,7 @@ import dto.TestUser;
 
 @Service
 public class H2ConnectionImpl implements H2Connection {
-    private static final String JDBC_URL = "jdbc:h2:tcp://localhost/D:/H2/WStask1";
+    private static final String JDBC_URL = "jdbc:h2:tcp://10.10.34.57/D:/H2/WStask1";
     private static final String USER = "Zam";
     private static final String PASSWORD = "123";
     private static final String DRIVER_CLASS="org.h2.Driver";
