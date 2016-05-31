@@ -21,8 +21,6 @@ public class H2ConnectionTest {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		assertEquals(populateTestUser().getUserId(), testUser.getUserId());
-		assertEquals(populateTestUser().getUserName(), testUser.getUserName());
 	}
 	@Test
 	public void testSaveUser () {

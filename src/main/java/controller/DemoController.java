@@ -1,6 +1,9 @@
 package controller;
 
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +29,7 @@ import dto.TestUser;
 @Controller
 @RequestMapping(value = "/user")
 public class DemoController {
-
+	private static Logger logger = LoggerFactory.getLogger(DemoController.class);
 @Autowired private TestUserService testUserService;
 
  @RequestMapping(value = "toPage1.htm")
@@ -47,11 +50,11 @@ public class DemoController {
 		 testUserService.saveUser(testUser);
 		 
 	 } catch (Exception e) {
-		 System.out.print(e);
+		 logger.error(e.getMessage());
 	 } 
 
 	 
-	 System.out.println("save user name ==== " + testUser.getUserName());
+	 logger.debug("save user name ==== " + testUser.getUserName());
 	 return testUser;
  }
  
@@ -66,12 +69,11 @@ public class DemoController {
 	 {
 		 testUser = testUserService.getUserById(userId);
 	 } catch (Exception e) {
-		 System.out.print(e);
-		 testUser.setUserName(e.getMessage());
+		 logger.error(e.getMessage());
 	 } 
 
 	 
-	 System.out.println("get user name ==== " + testUser.getUserName());
+	 logger.debug("get user name ==== " + testUser.getUserName());
 	 
   return testUser;
 
@@ -85,12 +87,11 @@ public class DemoController {
 		 testUserService.updateUser(testUser);
 		 message = "Success";
 	 } catch (Exception e) {
-		 System.out.print(e);
-		 message = e.getMessage();
+		 logger.error(e.getMessage());
 	 } 
 
 	 
-	 System.out.println("update user ==== " + testUser.getUserName());
+	 logger.debug("update user ==== " + testUser.getUserName());
 	 
   return message;
 

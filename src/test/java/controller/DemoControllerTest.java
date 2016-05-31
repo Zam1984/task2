@@ -35,7 +35,7 @@ public class DemoControllerTest {
 		}
 		TestUser testUser = new TestUser();
 		try {
-			testUser = testUserService.getUserById(userId);
+			testUser = demoController.getUser(userId);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
