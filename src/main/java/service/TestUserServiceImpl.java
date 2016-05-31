@@ -10,7 +10,7 @@ public class TestUserServiceImpl implements TestUserService {
 
 	@Autowired private H2Connection h2Connection;
 	
-	public TestUser getUserById(String userId) throws Exception {
+	public TestUser getUserById(int userId) throws Exception {
 		TestUser testUser = new TestUser();
 		 try
 		 {
@@ -21,21 +21,23 @@ public class TestUserServiceImpl implements TestUserService {
 		return testUser;
 	}
 	
-	public void saveUser(TestUser testUser) throws Exception {
+	public TestUser saveUser(TestUser testUser) throws Exception {
 		 try
 		 {
-			 h2Connection.saveUser(testUser);
+			 testUser = h2Connection.saveUser(testUser);
 		 } catch (Exception e) {
 			 throw new Exception(e);
 		 } 
+		 return testUser;
 	}
 	
-	public void updateUser(TestUser testUser) throws Exception {
+	public TestUser updateUser(TestUser testUser) throws Exception {
 		 try
 		 {
-			 h2Connection.updateUser(testUser);
+			 testUser = h2Connection.updateUser(testUser);
 		 } catch (Exception e) {
 			 throw new Exception(e);
 		 } 
+		 return testUser;
 	}
 }

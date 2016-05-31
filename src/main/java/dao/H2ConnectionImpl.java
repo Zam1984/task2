@@ -2,10 +2,13 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
-import org.h2.util.StringUtils;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Service;
 
 import dto.TestUser;
@@ -40,51 +43,88 @@ public class H2ConnectionImpl implements H2Connection {
 //        conn.close();
 //    }
     
-    public TestUser getUserById(String userId) throws Exception {
-    	String name = "";
-    	Class.forName(DRIVER_CLASS);
-        Connection conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-        Statement stmt = conn.createStatement();
-        try {
-        	ResultSet rs = stmt.executeQuery("SELECT * FROM TEST_USER WHERE USER_ID = " + userId);
-        	while (rs.next()) {
-        		name = rs.getString("name");
-        	}
-        }
-    	catch (Exception e) {
-    		throw new Exception(e);
-    	} finally {
-
-            stmt.close();
-
-            conn.close();
-    	}
-        if (StringUtils.isNullOrEmpty(name)) {
-        	throw new Exception("Record not found");
-        }
-        TestUser testUser = new TestUser();
-        testUser.setUserId(userId);
-        testUser.setUserName(name);
+    public TestUser getUserById(int userId) throws Exception {
+    	Configuration config=new Configuration();
+    	config.configure("classpath:/hibernate/hibernate.cfg.xml");
+    	SessionFactory sessionFactory=config.buildSessionFactory();
+    	Session session=sessionFactory.getCurrentSession();
+    	session.beginTransaction();
+    	
+        Transaction tas=session.beginTransaction();  
+        TestUser testUser = new TestUser();  
+        try{  
+          Query query=session.createQuery("from TestUser t where t.userId=:userId");  
+          query.setInteger("userId", userId);  
+          testUser=(TestUser) query.uniqueResult();  
+          tas.commit();  
+        }  
+        catch(Exception e){  
+            tas.rollback();  
+            e.printStackTrace();  
+        }  
     	return testUser;
+//        
+//        
+//    	String name = "";
+//    	Class.forName(DRIVER_CLASS);
+//        Connection conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+//        Statement stmt = conn.createStatement();
+//        try {
+//        	ResultSet rs = stmt.executeQuery("SELECT * FROM TEST_USER WHERE USER_ID = " + userId);
+//        	while (rs.next()) {
+//        		name = rs.getString("name");
+//        	}
+//        }
+//    	catch (Exception e) {
+//    		throw new Exception(e);
+//    	} finally {
+//
+//            stmt.close();
+//
+//            conn.close();
+//    	}
+//        if (StringUtils.isNullOrEmpty(name)) {
+//        	throw new Exception("Record not found");
+//        }
+//        TestUser testUser = new TestUser();
+//        testUser.setUserId(userId);
+//        testUser.setUserName(name);
+
     }
     
-    public void saveUser(TestUser testUser) throws Exception {
-    	Class.forName(DRIVER_CLASS);
-        Connection conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-        Statement stmt = conn.createStatement();
-        try {
-        	stmt.executeUpdate("INSERT INTO TEST_USER VALUES(null, '" + testUser.getUserName() + "')");
-        }
-        	catch (Exception e) {
-        		throw new Exception(e);
-        	} finally {
-
-                stmt.close();
-
-                conn.close();
-        	}
+    public TestUser saveUser(TestUser testUser) throws Exception {
+    	Configuration config=new Configuration();
+    	config.configure("classpath:/hibernate/hibernate.cfg.xml");
+    	SessionFactory sessionFactory=config.buildSessionFactory();
+    	Session session=sessionFactory.getCurrentSession();
+    	session.beginTransaction();
+    	
+        Transaction tas=session.beginTransaction();
+        try{
+        	session.save(testUser);
+        	tas.commit();  
+        }  
+        catch(Exception e){  
+            tas.rollback();  
+            e.printStackTrace();  
+        } 
+    	return testUser;
+//    	Class.forName(DRIVER_CLASS);
+//        Connection conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+//        Statement stmt = conn.createStatement();
+//        try {
+//        	stmt.executeUpdate("INSERT INTO TEST_USER VALUES(null, '" + testUser.getUserName() + "')");
+//        }
+//        	catch (Exception e) {
+//        		throw new Exception(e);
+//        	} finally {
+//
+//                stmt.close();
+//
+//                conn.close();
+//        	}
     }
-    public void updateUser(TestUser testUser) throws Exception {
+    public TestUser updateUser(TestUser testUser) throws Exception {
     	Class.forName(DRIVER_CLASS);
         Connection conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
         Statement stmt = conn.createStatement();
@@ -99,5 +139,6 @@ public class H2ConnectionImpl implements H2Connection {
 
                 conn.close();
         	}
+        return testUser;
     }
 }

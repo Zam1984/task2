@@ -41,25 +41,23 @@ public class DemoController {
  
  @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
  @ResponseBody
- public String saveUser(@RequestBody TestUser testUser) {
-	 String message = "";
+ public TestUser saveUser(@RequestBody TestUser testUser) {
 	 try
 	 {
 		 testUserService.saveUser(testUser);
-		 message = "Success";
 		 
 	 } catch (Exception e) {
-		 message = e.getMessage();
+		 System.out.print(e);
 	 } 
 
 	 
 	 System.out.println("save user name ==== " + testUser.getUserName());
-	 return message;
+	 return testUser;
  }
  
  @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
  @ResponseBody
- public TestUser getUser(@PathVariable(value = "id") String userId) {
+ public TestUser getUser(@PathVariable(value = "id") int userId) {
 	 
 	 
 	 TestUser testUser = new TestUser();

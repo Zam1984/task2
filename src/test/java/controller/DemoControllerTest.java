@@ -27,9 +27,9 @@ public class DemoControllerTest {
 	}
 	@Test
 	public void testGetUserById () {
-		String userId = "2";
+		int userId = 2;
 		try {
-			Mockito.when(testUserService.getUserById("2")).thenReturn(populateTestUser());
+			Mockito.when(testUserService.getUserById(2)).thenReturn(populateTestUser());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -55,7 +55,7 @@ public class DemoControllerTest {
 	
 	private TestUser populateTestUser() {
 		TestUser testUser = new TestUser();
-		testUser.setUserId("2");
+		testUser.setUserId(2);
 		testUser.setUserName("Suarez");
 		return testUser;
 	}

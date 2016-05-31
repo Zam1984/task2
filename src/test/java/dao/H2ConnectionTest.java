@@ -14,7 +14,7 @@ public class H2ConnectionTest {
 
 	@Test
 	public void testGetUserById () {
-		String userId = "2";
+		int userId = 2;
 		TestUser testUser = new TestUser();
 		try {
 			testUser = h2Connection.getUserById(userId);
@@ -36,7 +36,7 @@ public class H2ConnectionTest {
 
 	private TestUser populateTestUser() {
 		TestUser testUser = new TestUser();
-		testUser.setUserId("2");
+		testUser.setUserId(2);
 		testUser.setUserName("Suarez");
 		return testUser;
 	}
