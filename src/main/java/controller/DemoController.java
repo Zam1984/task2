@@ -65,12 +65,13 @@ public class DemoController {
 	 
 	 TestUser testUser = new TestUser();
 	 testUser.setUserId(userId);
-	 try
-	 {
-		 testUser = testUserService.getUserById(userId);
-	 } catch (Exception e) {
-		 logger.error(e.getMessage());
-	 } 
+	 testUser.setUserName("Ibrahimovic");
+//	 try
+//	 {
+//		 testUser = testUserService.getUserById(userId);
+//	 } catch (Exception e) {
+//		 logger.error(e.getMessage());
+//	 } 
 
 	 
 	 logger.debug("get user name ==== " + testUser.getUserName());

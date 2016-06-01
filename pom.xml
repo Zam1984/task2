@@ -90,7 +90,4 @@
         </build>
     </profile>
   </profiles>
-	<build>
-		<finalName>task2</finalName>
-	</build>
 </project>
