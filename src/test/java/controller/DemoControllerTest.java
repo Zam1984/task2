@@ -56,7 +56,7 @@ public class DemoControllerTest {
 	private TestUser populateTestUser() {
 		TestUser testUser = new TestUser();
 		testUser.setUserId(2);
-		testUser.setUserName("Suarez");
+		testUser.setUserName("Ibrahimovic");
 		return testUser;
 	}
 
